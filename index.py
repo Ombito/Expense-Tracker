@@ -79,10 +79,10 @@ def main_menu():
         session = Session()
 
 
-        if choice == 1:
+        if choice == 0:
             username = input("Enter your username: ")
             password = input("Enter your password: ")
-            add_expense()
+            
 
             # Check if the entered username and password match a user in the database
             user = session.query(User).filter_by(username=username, password=password).first()
@@ -92,7 +92,8 @@ def main_menu():
             else:
                 print("\nSign-in failed. Please check your username and password.")
 
-
+        elif choice == 1:
+            add_expense()
 
         elif choice == 2:
             print("Select a category... ")
