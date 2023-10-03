@@ -1,40 +1,38 @@
-from sqlalchemy import Column, Integer, String, create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker
 
-Base = declarative_base
-engine = create_engine("sqlite:///my_database.db")
+def main():
+    while True:
+        print("Select an option...\n")
+        print("1. Enter a new expense")
+        print("2. View expenses")
+        print("3. Delete expense")
+        print("4. Quit\n")
 
-class Transaction(Base):
-    __tablename__ = "transactions"
+        choice = int(input())
 
-    id = Column(Integer, primary_key=True)
-    date = Column(datetime, server_default=func.now())
-    category = Column(String())
+        if choice == 1:
+            date = input("Enter the date of transaction - (YYYY-MM-DD): ")
+            description = input("Enter the description of the expense: ")
+            amount = float(input("Enter amount: "))
 
-while True:
-    print("Select an option\n")
-    print("1. Enter a new expense")
-    print("2. View expenses")
-    print("3. Delete expense")
-    print("4. Quit\n")
+            categories = [ "Transport", "Savings", "Food", "Clothing", "Entertainment", "Rent", "Airtime", "Travel" ]
 
-    choice = int(input())
+            while True:
+                for i, category_name in enumerate(categories):
+                    print(f" {i + 1}. {category_name}")
+                break
 
-    if choice == 1:
-        date = input("Enter the date of transaction - (YYYY-MM-DD): ")
-        description = input("Enter the description of the expense: ")
-        category = input("Enter the category")
+        elif choice == 2:
+            print("Select a category... ")
+            input("Enter the category: ")
 
-    elif choice == 2:
-        pass
+        elif choice == 3:
+            print("Select an expense... " )
 
-    elif choice == 3:
-        pass
+        elif choice == 4:
+            print("Goodbye!")
+            break
 
-    elif choice == 4:
-        print("Goodbye!")
-        break
+        else:
+            print("Invalid input. Please enter a valid number.")
 
-    else:
-        print("Invalid input. Please enter a valid number.")
+main()
