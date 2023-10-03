@@ -1,5 +1,7 @@
+from expense  import User, Expense, Category, session, Base
 
-def main():
+
+def main_menu():
     while True:
         print("Select an option...\n")
         print("1. Enter a new expense")
@@ -35,4 +37,4 @@ def main():
         else:
             print("Invalid input. Please enter a valid number.")
 
-main()
+main_menu()
