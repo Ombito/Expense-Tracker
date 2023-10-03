@@ -48,7 +48,7 @@ class Category(Base):
     name = Column(String())
     description = Column(String())
 
-    expenses = relationship('Expense', secondary='expense_category')
+    expenses = relationship('Expense', secondary='expense_category', overlaps="categories")
 
 def seed_initial_data():
     # Create some initial users

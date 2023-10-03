@@ -1,12 +1,14 @@
 from expense  import User, Expense, Category, engine, sessionmaker
+from datetime import datetime
 
 Session = sessionmaker(bind=engine)
 
 def add_expense():
-    username = input("Enter your user ID: ")
+    username = input("Enter your username: ")
     date = input("Enter the date of transaction - (YYYY-MM-DD): ")
     description = input("Enter the description of the expense: ")
     amount = float(input("Enter amount: "))
+    category = input("Enter the category: ")
 
        
     session = Session()
@@ -14,10 +16,13 @@ def add_expense():
         # Check if the user with the given user_id exists
     user = session.query(User).filter_by(username=username).first()
     if user:
-        new_expense = Expense(username=username, date=date, description=description,amount=amount)
+        
+        date = datetime.strptime(date, "%Y-%m-%d").date()
+
+        new_expense = Expense(user=user, category=category, date=date, description=description,amount=amount)
         session.add(new_expense)
         session.commit()
-        print("Expense added successfully.")
+        print("\n\nExpense added successfully.")
     else:
         print("User not found. Please enter a valid user ID.")
 
@@ -62,7 +67,7 @@ def delete_expense():
 
 def main_menu():
     while True:
-        print("Select an option...\n")
+        print("\n\nSelect an option...\n")
         print("0. Sign-In")
         print("1. Enter a new expense")
         print("2. View expenses")
@@ -77,14 +82,15 @@ def main_menu():
         if choice == 1:
             username = input("Enter your username: ")
             password = input("Enter your password: ")
+            add_expense()
 
             # Check if the entered username and password match a user in the database
             user = session.query(User).filter_by(username=username, password=password).first()
 
             if user:
-                print("Sign-in successful. Welcome,", {username})
+                print("\nSIGN-IN SUCCESSFUL. WELCOME,", username + "!")
             else:
-                print("Sign-in failed. Please check your username and password.")
+                print("\nSign-in failed. Please check your username and password.")
 
 
 
