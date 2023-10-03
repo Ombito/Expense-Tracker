@@ -55,5 +55,8 @@ If you would like to contribute to this project, please open an issue or create 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE]() file for details.
+<br>
+<br>
+
 
 Happy budget tracking!
