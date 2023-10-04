@@ -3,6 +3,7 @@ from datetime import datetime
 
 Session = sessionmaker(bind=engine)
 
+    #seed new expense transaction to the database
 def add_expense():
     username = input("Enter your username: ")
     date = input("Enter the date of transaction - (YYYY-MM-DD): ")
@@ -13,7 +14,7 @@ def add_expense():
        
     session = Session()
 
-        # Check if the user with the given user_id exists
+        # check if the username exists
     user = session.query(User).filter_by(username=username).first()
     if user:
         
@@ -27,11 +28,12 @@ def add_expense():
         print("User not found. Please enter a valid user ID.")
 
 
+    #fetch all expenses for a user
 def view_expenses():
     username = input("Enter your username: ")
     session = Session()
 
-        # Check if the user with the given user_id exists
+        # check if the username exists and filter using user id
     user = session.query(User).filter_by(username=username).first()
     if user:
         expenses = session.query(Expense).filter_by(user_id=user.user_id).all()
@@ -45,26 +47,44 @@ def view_expenses():
         print("User not found. Please enter a valid user ID.")
 
 
-
+    # Delete the selected expenses and commit to the database
 def delete_expense():
     username = input("Enter your username: ")
-    expense_id = int(input("Enter the ID of the expense you want to delete: "))
+    description = input("Enter the description of the expense you want to delete: ")
+    amount = float(input("Enter amount of the expense: "))
 
     session = Session()
-
+       
     user = session.query(User).filter_by(username=username).first()
+
     if user:
-        expense = session.query(Expense).filter_by(expense_id=expense_id, username=username).first()
-        if expense:
-            session.delete(expense)
-            session.commit()
-            print("Expense deleted successfully.")
-        else:
-            print("Expense not found for this user.")
+            expenses_to_delete = session.query(Expense).filter(Expense.user == user, Expense.description == description, Expense.amount <= amount).all()
+
+            if expenses_to_delete:
+                print("\nExpenses to delete:")
+                for expense in expenses_to_delete:
+                    print(f"ID: {expense.id}, Category: {expense.description}, Amount: {expense.amount}")
+                
+                expense_ids = [expense.id for expense in expenses_to_delete]
+                confirm = input("\n\nDo you want to delete these expenses? (yes/no): ").lower()
+
+                if confirm == "yes":
+                    for expense_id in expense_ids:
+                        expense = session.query(Expense).filter_by(id=expense_id, user=user).first()
+                        if expense:
+                            session.delete(expense)
+
+                    session.commit()
+                    print("Expenses deleted successfully!")
+                else:
+                    print("Deletion canceled.")
+            else:
+                print("No expenses found with the given category and amount.")
     else:
-        print("User not found. Please enter a valid user ID.")
+            print("User not found. Please check your username.")
 
 
+    #The selection menu
 def main_menu():
     while True:
         print("\n\nSelect an option...\n")
@@ -76,15 +96,11 @@ def main_menu():
 
         choice = int(input())
 
-        session = Session()
-
-
         if choice == 0:
             username = input("Enter your username: ")
             password = input("Enter your password: ")
             
-
-            # Check if the entered username and password match a user in the database
+            session = Session()
             user = session.query(User).filter_by(username=username, password=password).first()
 
             if user:
@@ -96,7 +112,7 @@ def main_menu():
             add_expense()
 
         elif choice == 2:
-            print("Select a category... ")
+            print("View your expenses... ")
             view_expenses()
 
         elif choice == 3:
@@ -109,6 +125,7 @@ def main_menu():
 
         else:
             print("Invalid input. Please enter a valid number.")
+
 
 if __name__ == "__main__":
     main_menu()

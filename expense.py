@@ -12,7 +12,6 @@ expense_category = Table(
     Column('category_id', Integer, ForeignKey('categories.id'))
 )
 
-# Create expenses table
 class Expense(Base):
     __tablename__ = "expenses"
 
@@ -29,7 +28,6 @@ class Expense(Base):
     def __repr__(self):
         return f"Expense: {self.amount}"
 
-# Create a user table
 class User(Base):
     __tablename__ = "users"
 
@@ -40,7 +38,7 @@ class User(Base):
 
     expenses = relationship('Expense', back_populates='user')
 
-# Create a category table
+
 class Category(Base):
     __tablename__ = "categories"
 
@@ -51,18 +49,15 @@ class Category(Base):
     expenses = relationship('Expense', secondary='expense_category', overlaps="categories")
 
 def seed_initial_data():
-    # Create some initial users
+    
     user1 = User(username='alvin', email='alvin@gmail.com', password='password') 
     user2 = User(username='grace', email='grace@gmail.com', password='password')  
-
     
     session.add_all([user1, user2])
     session.commit()
 
 
 Base.metadata.create_all(engine)
-
-# Create a session
 Session = sessionmaker(bind=engine)
 session = Session()
 
