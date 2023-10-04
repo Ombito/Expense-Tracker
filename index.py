@@ -82,6 +82,40 @@ def delete_expense():
     else:
             print("User not found. Please check your username.")
 
+def update_expense():
+    username = input("Enter your username: ")
+    description = input("Enter the description of the expense you want to delete: ")
+    
+    session = Session()
+    user = session.query(User).filter_by(username=username).first()
+
+    if user:
+        expense = session.query(Expense).filter(Expense.user == user, Expense.description == description).first()
+        if expense:
+            print(f"Current Expense Details:")
+            print(f"Date: {expense.date}, Description: {expense.description}, Amount: {expense.amount}")
+            
+            new_date = input("Enter the new date (YYYY-MM-DD) or press Enter to keep the current date: ")
+            new_description = input("Enter the new description or press Enter to keep the current description: ")
+            new_amount = input("Enter the new amount or press Enter to keep the current amount: ")
+
+            if new_date:
+                expense.date = datetime.strptime(new_date, "%Y-%m-%d").date()
+            if new_description:
+                expense.description = new_description
+            if new_amount:
+                expense.amount = float(new_amount)
+            
+            session.commit()
+            print("Expense updated successfully.")
+        else:
+            print("Expense not found for this user.")
+    else:
+        print("User not found. Please check your username.")
+
+
+
+
 
     #The selection menu
 def main_menu():
@@ -91,7 +125,9 @@ def main_menu():
         print("1. Enter a new expense")
         print("2. View expenses")
         print("3. Delete expense")
-        print("4. Quit\n")
+        print("4. Update expense")
+        print("5. Search for an expense")
+        print("6. Quit\n")
 
         choice = int(input())
 
@@ -111,14 +147,22 @@ def main_menu():
             add_expense()
 
         elif choice == 2:
-            print("View your expenses... ")
+            print("View your expenses")
             view_expenses()
 
         elif choice == 3:
-            print("Select an expense... " )
+            print("Select an expense to delete " )
             delete_expense()
 
         elif choice == 4:
+            print("Select an expense to update " )
+            update_expense()
+
+        elif choice == 5:
+            print("Select an expense to search" )
+            search_expense()
+
+        elif choice == 6:
             print("Goodbye!")
             break
 
