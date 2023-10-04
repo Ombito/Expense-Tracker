@@ -82,6 +82,8 @@ def delete_expense():
     else:
             print("User not found. Please check your username.")
 
+
+    # update expense in the database
 def update_expense():
     username = input("Enter your username: ")
     description = input("Enter the description of the expense you want to delete: ")
@@ -113,8 +115,58 @@ def update_expense():
     else:
         print("User not found. Please check your username.")
 
+    # filter by description, date and time to search an expense 
+def search_expense():
+    while True:
+        print("1. Search with description")
+        print("2. Search with date")
+        print("3. Search with amount")
+        print("4. Back to main menu")
+        
+        search_choice = int(input())
+        session = Session()
+
+        if search_choice == 1:
+            username = input("Enter your username: ")
+            description = input("Enter a description: ")
+            user = session.query(User).filter_by(username=username).first()
+
+            if user:
+                expense = session.query(Expense).filter(Expense.user == user, Expense.description == description).first()
+                print(f"Expense Details:\n")
+                print(f"Date: {expense.date}, Description: {expense.description}, Amount: {expense.amount}")
+            else:
+                print("User not found")
+        
+        elif search_choice == 2:
+            username = input("Enter your username: ")
+            date = input("Enter a date (YYYY-MM-DD): ")
+            user = session.query(User).filter_by(username=username).first()
+
+            if user:
+                expense = session.query(Expense).filter(Expense.user == user, Expense.date == date).first()
+                print(f"Expense Details:\n")
+                print(f"Date: {expense.date}, Description: {expense.description}, Amount: {expense.amount}")
+            else:
+                print("User not found")
+        
+        elif search_choice == 3:
+            username = input("Enter your username: ")
+            amount = input("Enter an amount: ")
+            user = session.query(User).filter_by(username=username).first()
+
+            if user:
+                expense = session.query(Expense).filter(Expense.user == user, Expense.amount == amount).first()
+                print(f"Expense Details:\n")
+                print(f"Date: {expense.date}, Description: {expense.description}, Amount: {expense.amount}")
+            else:
+                print("User not found")
 
 
+        elif search_choice == 4:
+            break
+        else:
+            print("Invalid choice. Please enter a valid option.")
 
 
     #The selection menu
@@ -141,7 +193,7 @@ def main_menu():
             if user:
                 print("\nSIGN-IN SUCCESSFUL. WELCOME,", username + "!")
             else:
-                print("\nSign-in failed. Please check your username and password.")
+                print("\nSign-in failed. Incorrect username and password.")
 
         elif choice == 1:
             add_expense()
