@@ -5,6 +5,7 @@ from sqlalchemy.orm import declarative_base
 Base = declarative_base()
 engine = create_engine("sqlite:///my_database.db")
 
+    #association table
 expense_category = Table(
     'expense_category', 
     Base.metadata,
@@ -12,6 +13,7 @@ expense_category = Table(
     Column('category_id', Integer, ForeignKey('categories.id'))
 )
 
+    # class table
 class Expense(Base):
     __tablename__ = "expenses"
 
@@ -28,6 +30,7 @@ class Expense(Base):
     def __repr__(self):
         return f"Expense: {self.amount}"
 
+    # user table
 class User(Base):
     __tablename__ = "users"
 
@@ -38,7 +41,7 @@ class User(Base):
 
     expenses = relationship('Expense', back_populates='user')
 
-
+    # category table
 class Category(Base):
     __tablename__ = "categories"
 
@@ -52,8 +55,16 @@ def seed_initial_data():
     
     user1 = User(username='alvin', email='alvin@gmail.com', password='password') 
     user2 = User(username='grace', email='grace@gmail.com', password='password')  
+    user3 = User(username='james', email='james@gmail.com', password='password') 
+    user4 = User(username='ahmed', email='ahmed@gmail.com', password='password')
+    user5 = User(username='sofia', email='sofia@gmail.com', password='password') 
+    user6 = User(username='diana', email='diana@gmail.com', password='password')
+    user7 = User(username='felix', email='felix@gmail.com', password='password') 
+    user8 = User(username='caroline', email='caroline@gmail.com', password='password')
+
+
     
-    session.add_all([user1, user2])
+    session.add_all([user1, user2, user3, user4, user5, user6, user7, user8])
     session.commit()
 
 

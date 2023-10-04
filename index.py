@@ -3,7 +3,7 @@ from datetime import datetime
 
 Session = sessionmaker(bind=engine)
 
-    #seed new expense transaction to the database
+    #add new expense transaction to the database
 def add_expense():
     username = input("Enter your username: ")
     date = input("Enter the date of transaction - (YYYY-MM-DD): ")
@@ -14,7 +14,7 @@ def add_expense():
        
     session = Session()
 
-        # check if the username exists
+        # check if the username exists and save data to database
     user = session.query(User).filter_by(username=username).first()
     if user:
         
@@ -33,7 +33,6 @@ def view_expenses():
     username = input("Enter your username: ")
     session = Session()
 
-        # check if the username exists and filter using user id
     user = session.query(User).filter_by(username=username).first()
     if user:
         expenses = session.query(Expense).filter_by(user_id=user.user_id).all()
@@ -47,7 +46,7 @@ def view_expenses():
         print("User not found. Please enter a valid user ID.")
 
 
-    # Delete the selected expenses and commit to the database
+    # delete the selected expenses and commit to the database
 def delete_expense():
     username = input("Enter your username: ")
     description = input("Enter the description of the expense you want to delete: ")
