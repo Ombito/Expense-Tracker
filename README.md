@@ -1,24 +1,26 @@
 # Expense Tracker
 
-Expense Tracker is a command-line tool that helps you manage your personal finances. With this tool, you can easily track your expenses, view your spending history, and set budgets to manage your money effectively.
+Expense Tracker is a command-line tool that helps users manage their personal finances. With this tool, you can easily track your expenses, view your spending history, and delete expenses to manage your money effectively.
 
 
 ## Features
 
-1. Record your daily expenses with date, description, and category.
-2. View a summary of your spending history.
-3. Set monthly budgets for different expense categories.
-4. Get reminders when you exceed your budget.
+1. Create new user account and sign into the account.
+2. Record your daily expenses with date, description, and category.
+3. View a summary of your spending history.
+4. Search for different expenses.
+5. Update a transaction.
+6. Delete an expense.
 
 
 ## Getting Started
 
-To use CLI Budget Tracker, you need the following:
+To use Expense Tracker, you need the following:
 
 - Python 3.0
 - SQLAlchemy
 - SQLite3
-- Required Python packages (install them using `pip`)
+- Required Python packages (install them using `pip install`)
 
 
 ## Usage
@@ -34,17 +36,22 @@ To use CLI Budget Tracker, you need the following:
     ```bash
         cd Expense-Tracker
     ```
-3. Run the following command in your terminal
+3. Run the following command in your terminal to install dependencies.
 
     ```bash
         pipenv install
     ```
-4. Run the following command in your terminal
+4. Run the following command in your terminal to generate the database.
 
     ```bash
+        python3 expense.py
+    ```
+5. Run the following command in your terminal.
+   
+   ```bash
         python3 index.py
     ```
-5. Follow the on-screen instructions to start recording your expenses, viewing spending history, and managing your budget.
+6. Follow the on-screen instructions to start recording your expenses, viewing spending history, and managing your budget.
 
 
 ## Contributing
