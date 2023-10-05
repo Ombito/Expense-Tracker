@@ -25,7 +25,7 @@ def add_expense():
         session.commit()
         print("\n\nExpense added successfully.")
     else:
-        print("User not found. Please enter a valid user ID.")
+        print("\nUser not found. Please enter a valid user ID.")
 
 
     #fetch all expenses for a user
@@ -41,9 +41,9 @@ def view_expenses():
             for expense in expenses:
                 print(f"Date: {expense.date}, Description: {expense.description}, Amount: {expense.amount}")
         else:
-            print("No expenses found for this user.")
+            print("\nNo expenses found for this user.")
     else:
-        print("User not found. Please enter a valid user ID.")
+        print("\nUser not found. Please enter a valid user ID.")
 
 
     # delete the selected expenses and commit to the database
@@ -74,13 +74,13 @@ def delete_expense():
                             session.delete(expense)
 
                     session.commit()
-                    print("Expenses deleted successfully!")
+                    print("\nExpenses deleted successfully!")
                 else:
-                    print("Deletion canceled.")
+                    print("\nDelete unsuccessful.")
             else:
-                print("No expenses found with the given category and amount.")
+                print("\nNo expenses found with the given category and amount.")
     else:
-            print("User not found. Please check your username.")
+            print("\nUser not found. Please check your username.")
 
 
     # update expense in the database
@@ -109,11 +109,11 @@ def update_expense():
                 expense.amount = float(new_amount)
             
             session.commit()
-            print("Expense updated successfully.")
+            print("\nExpense updated successfully.")
         else:
-            print("Expense not found for this user.")
+            print("\nExpense not found for this user.")
     else:
-        print("User not found. Please check your username.")
+        print("\nUser not found. Please check your username.")
 
 
     # search for an expense using description, date and amount
@@ -138,7 +138,7 @@ def search_expense():
                 print(f"Expense Details:\n")
                 print(f"Date: {expense.date}, Description: {expense.description}, Amount: {expense.amount}")
             else:
-                print("User not found")
+                print("\nUser not found")
         
             #filter expenses using date
         elif search_choice == 2:
@@ -151,7 +151,7 @@ def search_expense():
                 print(f"Expense Details:\n")
                 print(f"Date: {expense.date}, Description: {expense.description}, Amount: {expense.amount}")
             else:
-                print("User not found")
+                print("\nUser not found")
         
             #filter expenses using amount
         elif search_choice == 3:
@@ -164,7 +164,7 @@ def search_expense():
                 print(f"Expense Details:\n")
                 print(f"Date: {expense.date}, Description: {expense.description}, Amount: {expense.amount}")
             else:
-                print("User not found")
+                print("\nUser not found")
 
 
         elif search_choice == 4:
@@ -179,54 +179,55 @@ def main_menu():
     while True:
         print("\n\nWELCOME TO EXPENSE TRACKER!\n")
         print("\nSelect an option:\n")
-        print("0. Sign-In")
-        print("1. Create a new acount\n")
+        print("1. Sign-In")
+        print("2. Create a new acount\n")
 
         menu_choice = int(input())
 
-        if menu_choice == 0:
+        if menu_choice == 1:
+            username = input("Enter your username: ")
+            password = input("Enter your password: ")
+                    
+            session = Session()
+            user = session.query(User).filter_by(username=username, password=password).first()
+
           
             while True:
+                        
                         #authorize user sign in
-                    username = input("Enter your username: ")
-                    password = input("Enter your password: ")
-                    
-                    session = Session()
-                    user = session.query(User).filter_by(username=username, password=password).first()
-
                     if user:
-                        print("\nSIGN-IN SUCCESSFUL. WELCOME,", username + "!")
+                        print("\nWELCOME,", username + "!")
 
-                        print("\n\n0. Enter a new expense")
-                        print("1. View expenses")
-                        print("2. Delete expense")
-                        print("3. Update expense")
-                        print("4. Search for an expense")
-                        print("5. Quit\n")
+                        print("\n\n1. Enter a new expense")
+                        print("2. View expenses")
+                        print("3. Delete expense")
+                        print("4. Update expense")
+                        print("5. Search for an expense")
+                        print("6. Quit\n")
 
                         choice = int(input())
 
                     
-                        if choice == 0:
+                        if choice == 1:
                             add_expense()
 
-                        elif choice == 1:
+                        elif choice == 2:
                             print("View your expenses")
                             view_expenses()
 
-                        elif choice == 2:
+                        elif choice == 3:
                             print("Select an expense to delete " )
                             delete_expense()
 
-                        elif choice == 3:
+                        elif choice == 4:
                             print("Select an expense to update " )
                             update_expense()
 
-                        elif choice == 4:
+                        elif choice == 5:
                             print("Select an expense to search" )
                             search_expense()
 
-                        elif choice == 5:
+                        elif choice == 6:
                             print("Goodbye!")
                             break
 
@@ -238,7 +239,7 @@ def main_menu():
                         break
             
             # create account for a new user
-        elif menu_choice == 1:
+        elif menu_choice == 2:
             username = input("Enter a username: ")
             email = input("Enter your email address: ")
             password = input("Enter a password: ")
