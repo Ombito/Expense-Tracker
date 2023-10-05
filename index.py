@@ -115,7 +115,7 @@ def update_expense():
     else:
         print("User not found. Please check your username.")
 
-    # filter by description, date and time to search an expense 
+    # filter by description, date and amount to search an expense 
 def search_expense():
     while True:
         print("1. Search with description")
@@ -172,54 +172,66 @@ def search_expense():
     #The selection menu
 def main_menu():
     while True:
-        print("\n\nSelect an option...\n")
+        print("\n\nWELCOME TO EXPENSE TRACKER!\n")
+        print("\nSelect an option:\n")
         print("0. Sign-In")
-        print("1. Enter a new expense")
-        print("2. View expenses")
-        print("3. Delete expense")
-        print("4. Update expense")
-        print("5. Search for an expense")
-        print("6. Quit\n")
+        print("1. Create a new acount\n")
 
-        choice = int(input())
+        menu_choice = int(input())
 
-        if choice == 0:
-            username = input("Enter your username: ")
-            password = input("Enter your password: ")
-            
-            session = Session()
-            user = session.query(User).filter_by(username=username, password=password).first()
+        if menu_choice == 0:
+            while True:
+                    username = input("Enter your username: ")
+                    password = input("Enter your password: ")
+                    
+                    session = Session()
+                    user = session.query(User).filter_by(username=username, password=password).first()
 
-            if user:
-                print("\nSIGN-IN SUCCESSFUL. WELCOME,", username + "!")
-            else:
-                print("\nSign-in failed. Incorrect username and password.")
+                    if user:
+                        print("\nSIGN-IN SUCCESSFUL. WELCOME,", username + "!")
 
-        elif choice == 1:
-            add_expense()
+                        print("\n\n0. Enter a new expense")
+                        print("1. View expenses")
+                        print("2. Delete expense")
+                        print("3. Update expense")
+                        print("4. Search for an expense")
+                        print("5. Quit\n")
 
-        elif choice == 2:
-            print("View your expenses")
-            view_expenses()
+                        choice = int(input())
 
-        elif choice == 3:
-            print("Select an expense to delete " )
-            delete_expense()
+                    
+                        if choice == 0:
+                            add_expense()
 
-        elif choice == 4:
-            print("Select an expense to update " )
-            update_expense()
+                        elif choice == 1:
+                            print("View your expenses")
+                            view_expenses()
 
-        elif choice == 5:
-            print("Select an expense to search" )
-            search_expense()
+                        elif choice == 2:
+                            print("Select an expense to delete " )
+                            delete_expense()
 
-        elif choice == 6:
-            print("Goodbye!")
-            break
+                        elif choice == 3:
+                            print("Select an expense to update " )
+                            update_expense()
 
-        else:
-            print("Invalid input. Please enter a valid number.")
+                        elif choice == 4:
+                            print("Select an expense to search" )
+                            search_expense()
+
+                        elif choice == 5:
+                            print("Goodbye!")
+                            break
+
+                        else:
+                            print("Invalid input. Please enter a valid number.")
+
+                    else:
+                        print("\nSign-in failed. Incorrect username and password.")
+                        break
+
+        elif menu_choice == 1:
+            pass
 
 
 if __name__ == "__main__":
