@@ -115,7 +115,8 @@ def update_expense():
     else:
         print("User not found. Please check your username.")
 
-    # filter by description, date and amount to search an expense 
+
+    # search for an expense using description, date and amount
 def search_expense():
     while True:
         print("1. Search with description")
@@ -126,6 +127,7 @@ def search_expense():
         search_choice = int(input())
         session = Session()
 
+            #filter expenses using description
         if search_choice == 1:
             username = input("Enter your username: ")
             description = input("Enter a description: ")
@@ -138,6 +140,7 @@ def search_expense():
             else:
                 print("User not found")
         
+            #filter expenses using date
         elif search_choice == 2:
             username = input("Enter your username: ")
             date = input("Enter a date (YYYY-MM-DD): ")
@@ -150,6 +153,7 @@ def search_expense():
             else:
                 print("User not found")
         
+            #filter expenses using amount
         elif search_choice == 3:
             username = input("Enter your username: ")
             amount = input("Enter an amount: ")
@@ -165,6 +169,7 @@ def search_expense():
 
         elif search_choice == 4:
             break
+
         else:
             print("Invalid choice. Please enter a valid option.")
 
@@ -180,7 +185,9 @@ def main_menu():
         menu_choice = int(input())
 
         if menu_choice == 0:
+          
             while True:
+                        #authorize user sign in
                     username = input("Enter your username: ")
                     password = input("Enter your password: ")
                     
@@ -229,10 +236,22 @@ def main_menu():
                     else:
                         print("\nSign-in failed. Incorrect username and password.")
                         break
-
+            
+            # create account for a new user
         elif menu_choice == 1:
-            pass
+            username = input("Enter a username: ")
+            email = input("Enter your email address: ")
+            password = input("Enter a password: ")
+            session = Session()
 
+            new_user = User(username=username, email=email, password=password)
+            session.add(new_user)
+            session.commit()
+            print("\n\nAccount created successfully.")
+        
+        else: 
+            print("Please enter a valid choice.")
+            
 
 if __name__ == "__main__":
     main_menu()
